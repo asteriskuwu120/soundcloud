@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .music-widget {
+        cursor: pointer;
+        display: inline-block;
+      }
+      .music-widget img {
+        width: 168px;
+        display: block;
+        transition: opacity 0.2s;
+      }
+      .music-widget:hover img {
+        opacity: 0.8;
+      }
+      .music-widget.playing img {
+        box-shadow: 0 0 20px rgba(255, 100, 100, 0.5);
+      }
+      #scWidget {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="music-widget" id="musicWidget">
+      <img
+        src="//ac.namu.la/20251211sac/3bc2116fdf4d1c2d49401c0c221fe097adf060e7aae287671f862a7540e46554.jpg?expires=1765493970&key=jSe4OVnzA20pUC9D8MXGZQ"
+      />
+    </div>
+    <iframe
+      id="scWidget"
+      width="1"
+      height="1"
+      frameborder="no"
+      src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Fuzhhmzzvxnsk%2Ftest&loop=true&auto_play=false"
+    ></iframe>
+    <script src="https://w.soundcloud.com/player/api.js"></script>
+    <script>
+      const widget = SC.Widget('scWidget');
+      const musicWidget = document.getElementById('musicWidget');
+      let isPlaying = false;
+
+      widget.bind(SC.Widget.Events.READY, function () {
+        musicWidget.addEventListener('click', function () {
+          if (isPlaying) {
+            widget.pause();
+            musicWidget.classList.remove('playing');
+          } else {
+            widget.play();
+            musicWidget.classList.add('playing');
+          }
+          isPlaying = !isPlaying;
+        });
+      });
+
+      widget.bind(SC.Widget.Events.FINISH, function () {
+        musicWidget.classList.remove('playing');
+        isPlaying = false;
+      });
+    </script>
+  </body>
+</html>
